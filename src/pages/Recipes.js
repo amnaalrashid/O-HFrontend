@@ -92,20 +92,21 @@ export const Recipes = () => {
         const matchesIngredient =
           ingredientsFilter === "" ||
           (Array.isArray(recipe.ingredients) &&
-            recipe.ingredients.length > 0 &&
-            recipe.ingredients.some((ing) => ing === ingredientsFilter));
+            recipe.ingredients.some(
+              (ing) =>
+                ing.name.toLowerCase() === ingredientsFilter.toLowerCase()
+            ));
 
         const matchesCategory =
           categoryFilter === "" ||
           (Array.isArray(recipe.category) &&
-            recipe.category.length > 0 &&
-            recipe.category.some((cat) => cat === categoryFilter));
+            recipe.category.some(
+              (cat) => cat.name.toLowerCase() === categoryFilter.toLowerCase()
+            ));
 
         console.log(`Recipe: ${recipe.name}`);
         console.log(`Matches Search: ${matchesSearch}`);
-        console.log(
-          `Matches Ingredient: ${matchesIngredient},${ingredientsFilter}`
-        );
+        console.log(`Matches Ingredient: ${matchesIngredient}`);
         console.log(`Matches Category: ${matchesCategory}`);
 
         return matchesSearch && matchesIngredient && matchesCategory;
@@ -164,6 +165,10 @@ export const Recipes = () => {
     setShowModal(false);
     setEditingRecipe(null);
     refetchUser();
+  };
+
+  const handleRecipeClick = (recipeId) => {
+    navigate(`/recipe/${recipeId}`);
   };
 
   return (
@@ -250,7 +255,7 @@ export const Recipes = () => {
             <option value="">All Ingredients</option>
             {ingredients &&
               ingredients.map((ing) => (
-                <option key={ing._id} value={ing._id}>
+                <option key={ing._id} value={ing.name}>
                   {ing.name}
                 </option>
               ))}
@@ -263,7 +268,7 @@ export const Recipes = () => {
             <option value="">All Categories</option>
             {category &&
               category.map((cat) => (
-                <option key={cat._id} value={cat._id}>
+                <option key={cat._id} value={cat.name}>
                   {cat.name}
                 </option>
               ))}
@@ -295,7 +300,8 @@ export const Recipes = () => {
           filteredRecipes.map((recipe) => (
             <div
               key={recipe._id}
-              className="bg-white rounded-lg p-6 shadow-md w-full h-64 relative"
+              className="bg-white rounded-lg p-6 shadow-md w-full h-64 relative cursor-pointer"
+              onClick={() => handleRecipeClick(recipe._id)}
             >
               <h3 className="text-olive text-xl font-bold mb-2">
                 {recipe.name}
@@ -313,7 +319,10 @@ export const Recipes = () => {
               <p className="text-olive-dark">Calories: {recipe.calories}</p>
               <div className="absolute bottom-4 right-4 flex space-x-2">
                 <button
-                  onClick={() => handleEditRecipe(recipe)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditRecipe(recipe);
+                  }}
                   className="bg-olive text-white p-2 rounded-full hover:bg-olive-dark transition-colors"
                   aria-label="Edit recipe"
                 >
@@ -327,7 +336,10 @@ export const Recipes = () => {
                   </svg>
                 </button>
                 <button
-                  onClick={() => handleDeleteRecipe(recipe)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteRecipe(recipe);
+                  }}
                   className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
                   aria-label="Delete recipe"
                 >

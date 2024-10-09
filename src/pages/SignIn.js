@@ -40,13 +40,14 @@ export const SignIn = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#344E41]">
-      <div className="w-[500px] h-[500px] relative -mt-16">
+      <div className="w-[500px] h-screen absolute top-[70px] -mt-16">
         <div className="absolute inset-0">
           <img
-            src="https://i.pinimg.com/564x/1f/ed/2a/1fed2a16fe518e7a8543dafd477a629b.jpg"
+            src="https://i.pinimg.com/564x/dc/77/c7/dc77c7be5cc1957bfe04b511fdbc4467.jpg"
             alt="Background"
             className="w-full h-full object-cover"
           />
+          <div className="absolute inset-0 bg-black opacity-60"></div>
         </div>
         <div className="relative z-10 flex flex-col justify-center h-full p-8">
           <h2 className="mb-6 text-3xl tracking-tight text-white text-left">
@@ -59,7 +60,7 @@ export const SignIn = () => {
                 name="username"
                 type="text"
                 required
-                className="w-full px-3 py-2 placeholder-gray-300 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 sm:text-sm bg-white bg-opacity-40 hover:bg-opacity-50"
+                className="w-full px-3 py-2 placeholder-gray-300 text-white rounded-md focus:outline-none sm:text-sm bg-white bg-opacity-40 hover:bg-opacity-50"
                 placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
@@ -70,7 +71,7 @@ export const SignIn = () => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="w-full px-3 py-2 placeholder-gray-300 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 sm:text-sm bg-white bg-opacity-40 hover:bg-opacity-50"
+                className="w-full px-3 py-2 placeholder-gray-300 text-white rounded-md focus:outline-none sm:text-sm bg-white bg-opacity-40 hover:bg-opacity-50"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
@@ -86,7 +87,7 @@ export const SignIn = () => {
             </div>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm text-white bg-white bg-opacity-40 hover:bg-opacity-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+              className="w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm text-white bg-white bg-opacity-40 hover:bg-opacity-50 focus:outline-none"
             >
               Sign in
             </button>
