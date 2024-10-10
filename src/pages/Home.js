@@ -1,9 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { getAllRecipes } from "../api/recipes";
 import { logout } from "../api/storage";
+import { Link } from "react-router-dom";
 
 export const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -68,7 +69,7 @@ const Header = ({ user, handleSignOut, handleSignIn, navigate }) => (
     <div className="flex justify-between items-center">
       <div className="flex items-center space-x-6">
         <CreateRecipeButton navigate={navigate} />
-        <PopularButton navigate={navigate} />
+        <PrepPageLink />
       </div>
       <div className="flex items-center space-x-4">
         <SignButton
@@ -114,13 +115,13 @@ const CreateRecipeButton = ({ navigate }) => (
   </button>
 );
 
-const PopularButton = ({ navigate }) => (
-  <button
-    onClick={() => navigate("/popular")}
+const PrepPageLink = () => (
+  <Link
+    to="/prep"
     className="text-white hover:text-olive-light hover:underline transition-colors text-xl"
   >
-    Popular
-  </button>
+    Go to Prep Page
+  </Link>
 );
 
 const SignButton = ({ user, handleSignOut, handleSignIn }) => (
@@ -190,19 +191,15 @@ const RecipeGrid = ({
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
     {isLoading && <p>Loading recipes...</p>}
     {error && <p>Error loading recipes: {error.message}</p>}
-    <div className="sm:col-span-2 lg:col-span-2 row-span-2 h-[552px] rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-olive-dark hover:shadow-lg relative flex flex-col justify-between bg-white bg-opacity-40">
-      <h2 className="text-2xl font-semibold mb-2">Categories</h2>
-      <p>What are you in the mood for today?</p>
-    </div>
-    {filteredRecipes.slice(0, 10).map((recipe) => (
+    {filteredRecipes.map((recipe) => (
       <RecipeCard
         key={recipe._id}
         recipe={recipe}
         handleRecipeClick={handleRecipeClick}
       />
     ))}
-    {filteredRecipes.length < 10 &&
-      Array(10 - filteredRecipes.length)
+    {filteredRecipes.length < 12 &&
+      Array(12 - filteredRecipes.length)
         .fill()
         .map((_, i) => <div key={`placeholder-${i}`} className="h-[260px]" />)}
   </div>
@@ -216,16 +213,12 @@ const RecipeCard = ({ recipe, handleRecipeClick }) => {
       className="h-[260px] rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-olive-dark hover:shadow-lg relative flex flex-col justify-between bg-white bg-opacity-40 overflow-hidden"
       onClick={() => handleRecipeClick(recipe._id)}
     >
-      {recipe.image && (
+      {recipe.recipeImage && (
         <div className="absolute inset-0 z-0">
           <img
-            src={recipe.image}
+            src={"http://localhost:10000/" + recipe.recipeImage}
             alt={recipe.name}
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              console.error("Error loading image:", e);
-              e.target.style.display = "none";
-            }}
+            className="w-full h-full object-cover rounded-md"
           />
         </div>
       )}

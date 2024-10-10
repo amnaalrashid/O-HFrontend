@@ -6,7 +6,7 @@ import { getMe } from "../api/users";
 import { getAllCategories } from "../api/category";
 import { getAllIngredients } from "../api/ingredients";
 import RecipeModal from "./RecipeModal";
-
+import { logout } from "../api/storage";
 const NavItem = ({ title, content, className, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -164,6 +164,12 @@ export const Recipes = () => {
     navigate(`/recipe/${recipeId}`);
   };
 
+  const handleSignOut = () => {
+    logout(); // This function should remove the token
+    queryClient.clear(); // Clear all React Query caches
+    navigate("/"); // Navigate to home page after logout
+  };
+
   return (
     <div className="bg-olive min-h-screen flex flex-col p-12 text-white font-telugu">
       <div className="flex justify-between items-center mb-8">
@@ -194,9 +200,7 @@ export const Recipes = () => {
         </div>
         <div className="flex items-center justify-end flex-1">
           <button
-            onClick={() => {
-              /* Add sign out logic here */
-            }}
+            onClick={handleSignOut}
             className="text-white hover:text-[#A3B18A] transition-colors mr-6 text-xl font-semibold underline"
           >
             Sign Out
@@ -224,11 +228,6 @@ export const Recipes = () => {
 
       <nav className="mb-8">
         <ul className="flex items-center space-x-8">
-          <NavItem
-            title="Popular"
-            content="View the most popular recipes among our users."
-            className="text-2xl font-semibold"
-          />
           <NavItem
             title="Favorites"
             content="View your favorite recipes."

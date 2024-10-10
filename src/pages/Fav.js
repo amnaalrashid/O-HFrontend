@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { getFavoriteRecipes, removeFromFavorites } from "../api/users";
-
+import { logout } from "../api/storage";
 export const Fav = () => {
   const [user] = useContext(UserContext);
   const navigate = useNavigate();
@@ -76,7 +76,7 @@ export const Fav = () => {
           <div className="flex items-center">
             <button
               onClick={() => {
-                /* Add sign out logic here */
+                logout();
               }}
               className="text-white hover:text-[#A3B18A] transition-colors mr-6 text-xl font-semibold underline"
             >

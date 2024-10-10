@@ -77,14 +77,7 @@ export const SignIn = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="text-right">
-              <a
-                href="#"
-                className="text-sm text-white hover:text-gray-200 hover:underline"
-              >
-                Forgot password?
-              </a>
-            </div>
+            <div className="text-right"></div>
             <button
               type="submit"
               className="w-full flex justify-center py-2 px-4 rounded-md shadow-sm text-sm text-white bg-white bg-opacity-40 hover:bg-opacity-50 focus:outline-none"
