@@ -12,6 +12,7 @@ import { Recipes } from "./pages/Recipes";
 import { Profile } from "./pages/Profile";
 import { RecipeDetail } from "./pages/RecipeDetail";
 import { Fav } from "./pages/Fav";
+import { Prep } from "./pages/prep";
 import "./index.css";
 import App from "./App";
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       { path: "/signin", element: <SignIn /> },
       { path: "/signup", element: <SignUp /> },
       { path: "/fav", element: <Fav /> },
+      { path: "/prep", element: <Prep /> },
     ],
   },
 ]);

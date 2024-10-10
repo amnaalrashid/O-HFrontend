@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, NavLink } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { signup } from "../api/users";
 
@@ -206,9 +206,12 @@ export const SignUp = () => {
                 Organize your meals, save time, and eat healthier with our new
                 feature
               </p>
-              <button className="bg-olive text-white px-6 py-2 rounded-full hover:bg-olive-dark transition duration-300">
+              <NavLink
+                to="/prep"
+                className="bg-olive text-white px-6 py-2 rounded-full hover:bg-olive-dark transition duration-300"
+              >
                 Try It Now
-              </button>
+              </NavLink>
             </div>
             <div className="w-1/3 bg-white bg-opacity-80 rounded-lg shadow-lg p-4 text-center">
               <h4 className="text-olive text-xl font-semibold mb-2">
