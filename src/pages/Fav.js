@@ -51,11 +51,11 @@ export const Fav = () => {
 
   return (
     <div className="bg-olive min-h-screen flex flex-col p-5 text-white">
-      <header className="flex justify-between items-center mb-6">
-        <div className="flex items-center">
+      <header className="flex flex-col items-center mb-10">
+        <div className="w-full flex justify-between items-center mb-4">
           <button
             onClick={() => navigate("/")}
-            className="text-white hover:text-olive-light transition-colors mr-4"
+            className="text-[#8C9084] hover:text-olive-light transition-colors"
             aria-label="Return to Home"
           >
             <svg
@@ -73,36 +73,64 @@ export const Fav = () => {
               />
             </svg>
           </button>
-          <h1 className="text-3xl font-bold">Favorite Recipes</h1>
+          <div className="flex items-center">
+            <button
+              onClick={() => {
+                /* Add sign out logic here */
+              }}
+              className="text-white hover:text-[#A3B18A] transition-colors mr-6 text-xl font-semibold underline"
+            >
+              Sign Out
+            </button>
+            <button
+              onClick={() => navigate("/profile")}
+              className="flex items-center justify-center"
+              aria-label="Go to profile"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="w-10 h-10 text-white hover:text-[#A3B18A] transition-colors"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12 4a4 4 0 100 8 4 4 0 000-8zm-2 9a4 4 0 00-4 4v1a1 1 0 001 1h10a1 1 0 001-1v-1a4 4 0 00-4-4h-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
+        <h1 className="text-3xl font-bold my-4 text-center mb-6 animate-pulse">
+          See all your favorite recipes here!
+        </h1>
       </header>
       {isLoading && <p>Loading favorite recipes...</p>}
       {error && <p>Error loading favorite recipes: {error.message}</p>}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {favoriteRecipes &&
           favoriteRecipes.map((recipe) => (
             <div
               key={recipe._id}
-              className="border rounded-lg p-4 shadow-md cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-olive-dark hover:shadow-lg relative"
+              className="rounded-lg p-3 shadow-md cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-olive-dark hover:shadow-lg relative aspect-square flex flex-col justify-between bg-white bg-opacity-40"
             >
-              <div onClick={() => handleRecipeClick(recipe._id)}>
-                <h2 className="text-xl font-semibold mb-2 transition-colors duration-300 ease-in-out hover:text-yellow-300">
+              <div
+                onClick={() => handleRecipeClick(recipe._id)}
+                className="flex-grow"
+              >
+                <h2 className="text-lg font-semibold mb-2 transition-colors duration-300 ease-in-out hover:text-yellow-300">
                   {recipe.name}
                 </h2>
-                {recipe.user && (
-                  <p className="text-sm mb-2">
-                    Created by: {recipe.user.username}
-                  </p>
-                )}
               </div>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   handleRemoveFavorite(recipe._id);
                 }}
-                className="absolute bottom-2 right-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition-colors"
+                className="absolute bottom-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition-colors"
               >
-                Remove from Favorites
+                Remove from Favorite
               </button>
             </div>
           ))}

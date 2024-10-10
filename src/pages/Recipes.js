@@ -7,15 +7,8 @@ import { getAllCategories } from "../api/category";
 import { getAllIngredients } from "../api/ingredients";
 import RecipeModal from "./RecipeModal";
 
-const NavItem = ({ title, content, to }) => {
+const NavItem = ({ title, content, className, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    if (to) {
-      navigate(to);
-    }
-  };
 
   return (
     <li
@@ -24,8 +17,8 @@ const NavItem = ({ title, content, to }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <button
-        className="px-4 py-2 rounded transition-colors relative"
-        onClick={handleClick}
+        className={`px-4 py-2 rounded transition-colors relative ${className}`}
+        onClick={onClick}
       >
         {title}
         <span
@@ -174,10 +167,10 @@ export const Recipes = () => {
   return (
     <div className="bg-olive min-h-screen flex flex-col p-12 text-white font-telugu">
       <div className="flex justify-between items-center mb-8">
-        <div className="flex items-center">
+        <div className="flex-1">
           <button
             onClick={() => navigate(-1)}
-            className="text-white hover:text-olive-light transition-colors mr-4"
+            className="text-[#8C9084] hover:text-olive-light transition-colors"
             aria-label="Go back"
           >
             <svg
@@ -195,44 +188,52 @@ export const Recipes = () => {
               />
             </svg>
           </button>
-          <h1 className="text-4xl font-bold">Recipes</h1>
         </div>
-        <div className="flex items-center">
+        <div className="flex-1 flex justify-center">
+          <h1 className="text-6xl font-bold">Recipes</h1>
+        </div>
+        <div className="flex items-center justify-end flex-1">
           <button
             onClick={() => {
-              /* Add logout logic here */
+              /* Add sign out logic here */
             }}
-            className="bg-white text-olive hover:bg-gray-100 font-bold py-2 px-4 rounded transition-colors mr-4"
+            className="text-white hover:text-[#A3B18A] transition-colors mr-6 text-xl font-semibold underline"
           >
-            Logout
+            Sign Out
           </button>
           <button
             onClick={() => navigate("/profile")}
-            className="bg-olive-dark flex items-center justify-center text-xl font-bold text-white border-2 border-white w-12 h-12 rounded-full"
+            className="flex items-center justify-center"
             aria-label="Go to profile"
           >
-            JS
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-10 h-10 text-white hover:text-[#A3B18A] transition-colors"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12 4a4 4 0 100 8 4 4 0 000-8zm-2 9a4 4 0 00-4 4v1a1 1 0 001 1h10a1 1 0 001-1v-1a4 4 0 00-4-4h-4z"
+                clipRule="evenodd"
+              />
+            </svg>
           </button>
         </div>
       </div>
 
       <nav className="mb-8">
-        <ul className="flex justify-between items-center bg-olive-light rounded-lg p-2">
+        <ul className="flex items-center space-x-8">
           <NavItem
             title="Popular"
             content="View the most popular recipes among our users."
+            className="text-2xl font-semibold"
           />
           <NavItem
-            title="New Recs"
-            content="Check out the latest recipe recommendations."
-          />
-          <NavItem
-            title="Breakfast"
-            content="Explore delicious breakfast recipes to start your day."
-          />
-          <NavItem
-            title="More"
-            content="Discover additional categories and features."
+            title="Favorites"
+            content="View your favorite recipes."
+            className="text-2xl font-semibold"
+            onClick={() => navigate("/fav")}
           />
         </ul>
       </nav>
@@ -244,35 +245,65 @@ export const Recipes = () => {
           placeholder="Search recipes by name, cook time, or calories"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-2 rounded-md text-olive"
+          className="w-full p-2 rounded-md text-olive focus:outline-none focus:ring-0"
         />
         <div className="flex space-x-4">
-          <select
-            value={ingredientsFilter}
-            onChange={(e) => setIngredientsFilter(e.target.value)}
-            className="flex-1 p-2 rounded-md text-olive"
-          >
-            <option value="">All Ingredients</option>
-            {ingredients &&
-              ingredients.map((ing) => (
-                <option key={ing._id} value={ing.name}>
-                  {ing.name}
-                </option>
-              ))}
-          </select>
-          <select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="flex-1 p-2 rounded-md text-olive"
-          >
-            <option value="">All Categories</option>
-            {category &&
-              category.map((cat) => (
-                <option key={cat._id} value={cat.name}>
-                  {cat.name}
-                </option>
-              ))}
-          </select>
+          <div className="relative flex-1">
+            <select
+              value={ingredientsFilter}
+              onChange={(e) => setIngredientsFilter(e.target.value)}
+              className="w-full p-2 pr-8 rounded-md text-olive focus:outline-none focus:ring-0 appearance-none"
+            >
+              <option value="">All Ingredients</option>
+              {ingredients &&
+                ingredients.map((ing) => (
+                  <option key={ing._id} value={ing.name}>
+                    {ing.name}
+                  </option>
+                ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+              <svg
+                className="h-4 w-4 text-olive"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+          </div>
+          <div className="relative flex-1">
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              className="w-full p-2 pr-8 rounded-md text-olive focus:outline-none focus:ring-0 appearance-none"
+            >
+              <option value="">All Categories</option>
+              {category &&
+                category.map((cat) => (
+                  <option key={cat._id} value={cat.name}>
+                    {cat.name}
+                  </option>
+                ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+              <svg
+                className="h-4 w-4 text-olive"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
 
